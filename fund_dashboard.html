@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICONS 20 Investment Fund Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0A0E17;
+  --bg-elevated: #0F1520;
+  --card: rgba(16,22,36,0.85);
+  --card-border: rgba(134,158,190,0.08);
+  --card-border-hover: rgba(134,158,190,0.14);
+  --text: #D4DDE8;
+  --text-bright: #F0F4F8;
+  --text-muted: #5E6E82;
+  --accent: #00D4AA;
+  --accent-dim: rgba(0,212,170,0.10);
+  --accent-glow: rgba(0,212,170,0.20);
+  --gold: #D4A843;
+  --gold-dim: rgba(212,168,67,0.10);
+  --blue: #4A90D9;
+  --blue-dim: rgba(74,144,217,0.10);
+  --orange: #D4853A;
+  --orange-dim: rgba(212,133,58,0.10);
+  --red: #D45050;
+  --red-dim: rgba(212,80,80,0.08);
+  --purple: #8A7FC8;
+  --purple-dim: rgba(138,127,200,0.10);
+  --teal: #3AA8A0;
+  --radius: 12px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Poppins',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden; -webkit-text-size-adjust:100%; -webkit-tap-highlight-color:transparent; }
+button { -webkit-appearance:none; -webkit-tap-highlight-color:transparent; touch-action:manipulation; }
+body::before { content:''; position:fixed; top:-300px; left:50%; width:1200px; height:600px; transform:translateX(-50%); background:radial-gradient(ellipse,rgba(0,212,170,0.03) 0%,rgba(74,144,217,0.02) 40%,transparent 70%); pointer-events:none; z-index:0; }
+.container { max-width:1320px; margin:0 auto; padding:32px 24px; position:relative; z-index:1; }
+.header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:36px; flex-wrap:wrap; gap:16px; }
+.header h1 { font-family:'Poppins',sans-serif; font-size:28px; font-weight:700; letter-spacing:-0.3px; color:var(--text-bright); }
+.header h1 span { background:linear-gradient(135deg,var(--accent),var(--teal)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.header .subtitle { color:var(--text-muted); font-size:13px; margin-top:4px; letter-spacing:0.3px; }
+.header .date-badge { background:var(--bg-elevated); border:1px solid var(--card-border); border-radius:8px; padding:10px 18px; font-size:12px; color:var(--text-muted); -webkit-backdrop-filter:blur(12px); backdrop-filter:blur(12px); }
+.header .date-badge span { color:var(--text-bright); font-weight:600; }
+.card { background:var(--card); border:1px solid var(--card-border); border-radius:var(--radius); padding:24px; -webkit-backdrop-filter:blur(16px); backdrop-filter:blur(16px); transition:border-color 0.25s,box-shadow 0.25s; }
+.card:hover { border-color:var(--card-border-hover); box-shadow:0 4px 24px rgba(0,0,0,0.25); }
+.card-title { font-size:11px; text-transform:uppercase; letter-spacing:1.8px; color:var(--text-muted); margin-bottom:14px; font-weight:600; }
+.kpi-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px; margin-bottom:24px; }
+.kpi { text-align:center; padding:22px 16px; position:relative; overflow:hidden; }
+.kpi::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--accent),transparent); opacity:0.3; }
+.kpi .value { font-family:'Poppins',sans-serif; font-size:26px; font-weight:700; margin-bottom:4px; letter-spacing:-0.5px; }
+.kpi .label { font-size:10px; text-transform:uppercase; letter-spacing:1.5px; color:var(--text-muted); font-weight:600; }
+.kpi .change { font-size:11px; margin-top:6px; font-weight:600; }
+.kpi .change.up { color:var(--accent); }
+.kpi .change.down { color:var(--red); }
+.grid-full { margin-bottom:24px; }
+table { width:100%; border-collapse:collapse; }
+th { text-align:left; font-size:10px; text-transform:uppercase; letter-spacing:1.2px; color:var(--text-muted); padding:10px 12px; border-bottom:1px solid rgba(134,158,190,0.10); font-weight:600; }
+td { padding:10px 12px; font-size:13px; border-bottom:1px solid rgba(134,158,190,0.04); color:var(--text); }
+tr:last-child td { border-bottom:none; }
+tr:hover td { background:rgba(0,212,170,0.02); }
+.alloc-bar { display:flex; height:32px; border-radius:6px; overflow:hidden; margin-top:12px; margin-bottom:16px; box-shadow:inset 0 1px 2px rgba(0,0,0,0.3); }
+.alloc-bar div { display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; letter-spacing:0.5px; color:var(--bg); transition:flex 0.4s ease; }
+.alloc-legend { display:flex; gap:20px; flex-wrap:wrap; margin-top:8px; }
+.alloc-legend span { display:flex; align-items:center; gap:6px; font-size:11px; color:var(--text-muted); }
+.alloc-legend .dot { width:8px; height:8px; border-radius:2px; display:inline-block; }
+.badge { display:inline-block; padding:3px 10px; border-radius:4px; font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; }
+.badge-active { background:var(--accent-dim); color:var(--accent); }
+.badge-won { background:var(--gold-dim); color:var(--gold); }
+.badge-pending { background:var(--blue-dim); color:var(--blue); }
+.timeline { position:relative; padding-left:28px; }
+.timeline::before { content:''; position:absolute; left:9px; top:4px; bottom:4px; width:1px; background:linear-gradient(180deg,var(--accent),var(--teal),rgba(94,110,130,0.3)); }
+.timeline-item { position:relative; margin-bottom:20px; }
+.timeline-item::before { content:''; position:absolute; left:-23px; top:5px; width:9px; height:9px; border-radius:50%; border:2px solid var(--accent); background:var(--bg); }
+.timeline-item.completed::before { background:var(--accent); box-shadow:0 0 6px var(--accent-glow); }
+.timeline-item .month { font-weight:600; font-size:13px; margin-bottom:4px; color:var(--text-bright); }
+.timeline-item .winners { font-size:12px; color:var(--text-muted); }
+.timeline-item .winners strong { color:var(--gold); }
+.inv-card { background:var(--bg-elevated); border:1px solid var(--card-border); border-radius:8px; padding:16px; margin-bottom:12px; transition:border-color 0.2s; }
+.inv-card:hover { border-color:var(--card-border-hover); }
+.inv-card .inv-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+.inv-card .inv-type { font-size:12px; font-weight:700; letter-spacing:0.2px; }
+.inv-card .inv-amount { font-family:'Poppins',sans-serif; font-size:17px; font-weight:700; }
+.inv-card .inv-meta { display:flex; gap:16px; flex-wrap:wrap; }
+.inv-card .inv-meta span { font-size:11px; color:var(--text-muted); }
+.inv-card .inv-meta span strong { color:var(--text); }
+.progress-track { height:4px; background:rgba(134,158,190,0.08); border-radius:2px; margin-top:10px; overflow:hidden; }
+.progress-fill { height:100%; border-radius:2px; transition:width 0.6s ease; }
+.nav-highlight { background:linear-gradient(135deg,rgba(0,212,170,0.04),rgba(74,144,217,0.03)); border:1px solid rgba(0,212,170,0.10); }
+.tab-row { display:flex; gap:2px; margin-bottom:20px; background:rgba(134,158,190,0.04); border-radius:8px; padding:3px; }
+.tab-btn { padding:8px 18px; border:none; background:transparent; color:var(--text-muted); font-family:'Poppins',sans-serif; font-size:12px; font-weight:600; cursor:pointer; border-radius:6px; transition:all 0.2s; letter-spacing:0.3px; }
+.tab-btn:hover { color:var(--text); background:rgba(134,158,190,0.06); }
+.tab-btn.active { background:var(--accent); color:var(--bg); box-shadow:0 2px 8px rgba(0,212,170,0.2); }
+.tab-content { display:none; }
+.tab-content.active { display:block; }
+.chit-summary-table { min-width:unset !important; }
+.disclaimer { margin-top:32px; padding:14px 20px; background:rgba(212,133,58,0.04); border:1px solid rgba(212,133,58,0.10); border-radius:8px; font-size:11px; color:rgba(212,168,67,0.7); line-height:1.7; }
+::-webkit-scrollbar { width:5px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:rgba(134,158,190,0.12); border-radius:3px; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+.card { animation:fadeUp 0.4s ease both; }
+.kpi-row .card:nth-child(1) { animation-delay:0.03s; }
+.kpi-row .card:nth-child(2) { animation-delay:0.06s; }
+.kpi-row .card:nth-child(3) { animation-delay:0.09s; }
+.kpi-row .card:nth-child(4) { animation-delay:0.12s; }
+.kpi-row .card:nth-child(5) { animation-delay:0.15s; }
+.kpi-row .card:nth-child(6) { animation-delay:0.18s; }
+
+@media (max-width:640px) {
+  .container { padding:16px 10px; }
+  .header { margin-bottom:20px; flex-direction:column; }
+  .header h1 { font-size:21px; }
+  .header .subtitle { font-size:11px; }
+  .header .date-badge { font-size:10px; padding:8px 12px; width:100%; text-align:center; }
+  .kpi-row { grid-template-columns:1fr 1fr; gap:8px; }
+  .kpi { padding:14px 8px; }
+  .kpi .value { font-size:16px; word-break:break-all; }
+  .kpi .label { font-size:7.5px; letter-spacing:0.8px; }
+  .kpi .change { font-size:9px; }
+  .tab-row { overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; gap:2px; }
+  .tab-row::-webkit-scrollbar { display:none; }
+  .tab-btn { font-size:11px; padding:7px 14px; white-space:nowrap; flex-shrink:0; }
+  .card { padding:14px 12px; border-radius:10px; }
+  .card-title { font-size:10px; letter-spacing:1.2px; margin-bottom:10px; }
+  .inv-card { padding:12px 10px; }
+  .inv-card .inv-header { flex-direction:column; align-items:flex-start !important; text-align:left !important; gap:2px; }
+  .inv-card .inv-amount { font-size:15px; text-align:left !important; }
+  .inv-card .inv-type { font-size:11px; text-align:left !important; }
+  .inv-card .inv-meta { flex-direction:column; gap:4px; }
+  .inv-card .inv-meta span { font-size:11px; display:flex; justify-content:space-between; width:100%; padding:2px 0; border-bottom:1px solid rgba(134,158,190,0.04); }
+  .inv-card .inv-meta span:last-child { border-bottom:none; }
+  .inv-card .inv-meta span strong { text-align:right; }
+  .alloc-bar { height:24px; border-radius:4px; }
+  .alloc-bar div { font-size:8px; letter-spacing:0; }
+  .alloc-legend { flex-direction:column; gap:6px; }
+  .alloc-legend span { font-size:10px; }
+  .table-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; margin:0 -12px; padding:0 12px; }
+  .table-wrap table { min-width:520px; }
+  th { font-size:9px; padding:7px 6px; letter-spacing:0.6px; white-space:nowrap; }
+  td { font-size:11px; padding:7px 6px; white-space:nowrap; }
+  .chit-summary-table td { white-space:normal; font-size:11px; padding:6px 4px; }
+  .chit-summary-table th { white-space:normal; font-size:9px; padding:6px 4px; }
+  .mobile-stack { display:grid !important; grid-template-columns:1fr !important; gap:16px !important; }
+  .timeline { padding-left:24px; }
+  .timeline-item .month { font-size:12px; }
+  .timeline-item .winners { font-size:11px; line-height:1.5; }
+  .badge { font-size:8px; padding:2px 6px; letter-spacing:0.3px; }
+  .nav-highlight { padding:10px !important; }
+  .mobile-stack table td { font-size:11px; padding:6px 4px; white-space:normal; }
+  .mobile-stack table td:last-child { text-align:right; white-space:nowrap; }
+  .inv-card .inv-meta[style*="background"] { flex-direction:column; gap:4px; padding:8px 10px !important; }
+  .notes-text { font-size:10px !important; line-height:1.7 !important; }
+  .disclaimer { font-size:9px; padding:10px 12px; line-height:1.6; }
+  .progress-track { height:3px; margin-top:8px; }
+}
+@media (max-width:380px) {
+  .kpi-row { grid-template-columns:1fr 1fr; gap:6px; }
+  .kpi .value { font-size:14px; }
+  .kpi .label { font-size:7px; }
+  .header h1 { font-size:18px; }
+  .inv-card .inv-meta span { font-size:10px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+  <div>
+    <h1><span>ICONS 20</span> Investment Fund</h1>
+    <div class="subtitle">Collective Investment & Chit Fund Dashboard &bull; 20 Members</div>
+  </div>
+  <div class="date-badge">
+    Reporting Date: <span>15 April 2026</span> &bull; Cycle Month <span>4 of 10</span>
+  </div>
+</div>
+
+<div class="kpi-row">
+  <div class="card kpi">
+    <div class="value" style="color:var(--text-bright)">AED 300,000</div>
+    <div class="label">Total Collected (3 Months)</div>
+  </div>
+  <div class="card kpi">
+    <div class="value" style="color:var(--accent)">AED 150,000</div>
+    <div class="label">Investment Pool</div>
+  </div>
+  <div class="card kpi">
+    <div class="value" style="color:var(--gold)">AED 150,000</div>
+    <div class="label">Chit Fund Disbursed</div>
+  </div>
+  <div class="card kpi">
+    <div class="value" style="color:var(--blue)">AED 150,338.66</div>
+    <div class="label">Indicative NAV</div>
+    <div class="change up"><span style="color:var(--accent)">+0.23%</span> vs cost</div>
+  </div>
+  <div class="card kpi" id="cash-kpi">
+    <div class="value" style="color:var(--purple)">AED 0.00</div>
+    <div class="label">Cash in Hand</div>
+    <div class="change" style="color:var(--text-muted)">Uninvested balance</div>
+  </div>
+</div>
+
+<div class="card grid-full" style="padding-bottom:8px;">
+  <div class="tab-row">
+    <button class="tab-btn active" type="button" data-tab="portfolio">Portfolio</button>
+    <button class="tab-btn" type="button" data-tab="chitfund">Chit Fund</button>
+    <button class="tab-btn" type="button" data-tab="members">Members</button>
+    <button class="tab-btn" type="button" data-tab="nav">NAV Details</button>
+  </div>
+
+  <div class="tab-content active" id="tab-portfolio">
+    <div class="card-title">Asset Allocation</div>
+    <div class="alloc-bar">
+      <div style="flex:53.3;background:var(--blue);">53.3%</div>
+      <div style="flex:26.7;background:var(--gold);">26.7%</div>
+      <div style="flex:20.0;background:var(--orange);">20.0%</div>
+    </div>
+    <div class="alloc-legend">
+      <span><span class="dot" style="background:var(--blue)"></span> Liquid/Deposits &mdash; AED 80,000</span>
+      <span><span class="dot" style="background:var(--gold)"></span> Physical Commodities &mdash; AED 40,000</span>
+      <span><span class="dot" style="background:var(--orange)"></span> Secured/WC Finance &mdash; AED 30,000</span>
+    </div>
+
+    <div style="margin-top:24px;">
+      <div class="card-title">Investment Details</div>
+
+      <div class="inv-card">
+        <div class="inv-header">
+          <div><div class="inv-type" style="color:var(--blue)">&#9679; Wakala Deposit — Aafaq Islamic Finance</div></div>
+          <div class="inv-amount" style="color:var(--blue)">AED 80,000.00</div>
+        </div>
+        <div class="inv-meta">
+          <span>Date: <strong>6 Mar 2026</strong></span>
+          <span>Profit Rate: <strong>4.00% p.a. (est.)</strong></span>
+          <span>Type: <strong>Wakala Deposit</strong></span>
+          <span>Basis: <strong>360 days</strong></span>
+        </div>
+        <div class="inv-meta" style="margin-top:8px;">
+          <span>Current Value: <strong>AED 80,355.56</strong></span>
+          <span>Accrued Profit (est.): <strong><span style="color:var(--accent)">+355.56</span></strong></span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" style="width:11.1%;background:var(--blue)"></div></div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">40 days of 360 elapsed</div>
+      </div>
+
+      <div class="inv-card">
+        <div class="inv-header">
+          <div><div class="inv-type" style="color:var(--gold)">&#9679; Gold Purchase #1</div></div>
+          <div class="inv-amount" style="color:var(--gold)">AED 20,000.00</div>
+        </div>
+        <div class="inv-meta">
+          <span>Date: <strong>23 Feb 2026</strong></span>
+          <span>Weight: <strong>32.88 gms</strong></span>
+          <span>Cost/gm: <strong>AED 608.27</strong></span>
+        </div>
+        <div class="inv-meta" style="margin-top:8px;">
+          <span>Current Value: <strong>AED 19,144.38</strong></span>
+          <span>Unrealized P/L: <strong><span style="color:var(--red)">-855.62</span></strong></span>
+        </div>
+      </div>
+      <div class="inv-card">
+        <div class="inv-header">
+          <div><div class="inv-type" style="color:var(--gold)">&#9679; Gold Purchase #2</div></div>
+          <div class="inv-amount" style="color:var(--gold)">AED 20,000.00</div>
+        </div>
+        <div class="inv-meta">
+          <span>Date: <strong>1 Apr 2026</strong></span>
+          <span>Weight: <strong>35.79 gms</strong></span>
+          <span>Cost/gm: <strong>AED 558.82</strong></span>
+        </div>
+        <div class="inv-meta" style="margin-top:8px;">
+          <span>Current Value: <strong>AED 20,838.73</strong></span>
+          <span>Unrealized P/L: <strong><span style="color:var(--accent)">+838.73</span></strong></span>
+        </div>
+      </div>
+<div style="color:var(--text-muted);font-size:12px;padding:12px;">No fund manager investments yet.</div>
+
+      <div class="inv-card">
+        <div class="inv-header">
+          <div><div class="inv-type" style="color:var(--orange)">&#9679; Working Capital  #1</div></div>
+          <div class="inv-amount" style="color:var(--orange)">AED 30,000.00</div>
+        </div>
+        <div class="inv-meta">
+          <span>Date: <strong>5 Apr 2026</strong></span>
+          <span>Profit Rate: <strong>8.00% p.a.</strong></span>
+          <span>Tenor: <strong>6 months</strong></span>
+          <span>Total Expected Profit: <strong>AED 1,200.00</strong></span>
+        </div>
+        <div class="inv-meta" style="margin-top:8px;padding:8px 12px;background:rgba(212,133,58,0.06);border-radius:8px;">
+          <span>Profit Recognized (Received): <strong style="color:var(--accent)">AED 0.00</strong></span>
+          <span>Profit Unreceived: <strong style="color:var(--text-muted)">AED 1,200.00</strong></span>
+          <span>Investment Amt. Received: <strong style="color:var(--accent)">AED 0.00</strong></span>
+          <span>Investment Amt. Remaining: <strong style="color:var(--text)">AED 30,000.00</strong></span>
+        </div>
+        <div style="font-size:11px;color:var(--orange);margin-top:8px;font-weight:600;">
+          &#9432; Profit recognized on cash basis only
+        </div>
+        <div class="progress-track"><div class="progress-fill" style="width:0%;background:var(--orange)"></div></div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">0 of 6 installments received</div>
+        <div style="margin-top:14px;">
+          <div style="font-size:11px;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Installment Schedule</div>
+          <div class="table-wrap">
+          <table>
+            <tr><th>#</th><th>Due Date</th><th>Installment</th><th>Invest. Amt.</th><th>Profit</th><th>Remaining</th><th>Status</th></tr>
+            <tr>
+              <td>1</td>
+              <td>5 May 2026</td>
+              <td style="font-weight:600">AED 5,200.00</td>
+              <td>AED 5,000.00</td>
+              <td>AED 200.00</td>
+              <td>AED 25,000.00</td>
+              <td><span class="badge badge-pending">Next Due</span></td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>5 Jun 2026</td>
+              <td style="font-weight:600">AED 5,200.00</td>
+              <td>AED 5,000.00</td>
+              <td>AED 200.00</td>
+              <td>AED 20,000.00</td>
+              <td><span class="badge" style="background:rgba(255,255,255,0.04);color:var(--text-muted)">Upcoming</span></td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>5 Jul 2026</td>
+              <td style="font-weight:600">AED 5,200.00</td>
+              <td>AED 5,000.00</td>
+              <td>AED 200.00</td>
+              <td>AED 15,000.00</td>
+              <td><span class="badge" style="background:rgba(255,255,255,0.04);color:var(--text-muted)">Upcoming</span></td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>5 Aug 2026</td>
+              <td style="font-weight:600">AED 5,200.00</td>
+              <td>AED 5,000.00</td>
+              <td>AED 200.00</td>
+              <td>AED 10,000.00</td>
+              <td><span class="badge" style="background:rgba(255,255,255,0.04);color:var(--text-muted)">Upcoming</span></td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>5 Sep 2026</td>
+              <td style="font-weight:600">AED 5,200.00</td>
+              <td>AED 5,000.00</td>
+              <td>AED 200.00</td>
+              <td>AED 5,000.00</td>
+              <td><span class="badge" style="background:rgba(255,255,255,0.04);color:var(--text-muted)">Upcoming</span></td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td>5 Oct 2026</td>
+              <td style="font-weight:600">AED 5,200.00</td>
+              <td>AED 5,000.00</td>
+              <td>AED 200.00</td>
+              <td>AED 0.00</td>
+              <td><span class="badge" style="background:rgba(255,255,255,0.04);color:var(--text-muted)">Upcoming</span></td>
+            </tr>
+          </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-content" id="tab-chitfund">
+    <div class="card-title">Chit Fund Timeline (10 Month Cycle)</div>
+    <div class="mobile-stack" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+      <div>
+        <div class="timeline">
+
+          <div class="timeline-item completed">
+            <div class="month">Month 1 &mdash; January 2026</div>
+            <div class="winners">Winners: <strong>JASIR VALLIL HAMEED</strong> & <strong>SHIHAS KALATHILTHODI</strong> &mdash; AED 25,000 each</div>
+          </div>
+          <div class="timeline-item completed">
+            <div class="month">Month 2 &mdash; February 2026</div>
+            <div class="winners">Winners: <strong>MOHAMMED SHABEER</strong> & <strong>JANHAR LAL</strong> &mdash; AED 25,000 each</div>
+          </div>
+          <div class="timeline-item completed">
+            <div class="month">Month 3 &mdash; March 2026</div>
+            <div class="winners">Winners: <strong>RENEEZ TP</strong> & <strong>SUHAIL BABU</strong> &mdash; AED 25,000 each</div>
+          </div>
+          <div class="timeline-item">
+            <div class="month" style="color:var(--text-muted)">Month 4 &mdash; April 2026</div>
+            <div class="winners">Upcoming draw &mdash; 2 winners pending</div>
+          </div>
+          <div class="timeline-item">
+            <div class="month" style="color:var(--text-muted)">Months 5&ndash;10</div>
+            <div class="winners">May &ndash; October 2026 &mdash; 12 remaining members</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card-title">Chit Fund Summary</div>
+        <table class="chit-summary-table">
+          <tr><td style="color:var(--text-muted)">Total Members</td><td style="text-align:right;font-weight:700">20</td></tr>
+          <tr><td style="color:var(--text-muted)">Monthly Pool</td><td style="text-align:right;font-weight:700">AED 50,000</td></tr>
+          <tr><td style="color:var(--text-muted)">Winners per Month</td><td style="text-align:right;font-weight:700">2</td></tr>
+          <tr><td style="color:var(--text-muted)">Payout per Winner</td><td style="text-align:right;font-weight:700">AED 25,000</td></tr>
+          <tr><td style="color:var(--text-muted)">Total Cycle</td><td style="text-align:right;font-weight:700">10 months</td></tr>
+          <tr><td style="color:var(--text-muted)">Disbursed</td><td style="text-align:right;font-weight:700;color:var(--gold)">AED 150,000</td></tr>
+          <tr><td style="color:var(--text-muted)">Members Won</td><td style="text-align:right;font-weight:700;color:var(--accent)">6 of 20</td></tr>
+          <tr><td style="color:var(--text-muted)">Members Remaining</td><td style="text-align:right;font-weight:700">14</td></tr>
+        </table>
+
+        <div style="margin-top:20px;">
+          <div class="card-title">Won Members</div>
+          <table class="chit-summary-table">
+            <tr><th>Member</th><th>Month</th><th>Amount</th></tr>
+            <tr><td>JASIR VALLIL HAMEED</td><td>Jan 2026</td><td>AED 25,000</td></tr>
+            <tr><td>SHIHAS KALATHILTHODI</td><td>Jan 2026</td><td>AED 25,000</td></tr>
+            <tr><td>MOHAMMED SHABEER</td><td>Feb 2026</td><td>AED 25,000</td></tr>
+            <tr><td>JANHAR LAL</td><td>Feb 2026</td><td>AED 25,000</td></tr>
+            <tr><td>RENEEZ TP</td><td>Mar 2026</td><td>AED 25,000</td></tr>
+            <tr><td>SUHAIL BABU</td><td>Mar 2026</td><td>AED 25,000</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-content" id="tab-members">
+    <div class="card-title">Member Registry (20 Founding Members)</div>
+    <div class="table-wrap">
+    <table>
+      <tr><th>#</th><th>Member ID</th><th>Name</th><th>Monthly</th><th>Total Paid</th><th>Chit Status</th></tr>
+      <tr><td>1</td><td>ICONS20-01</td><td>ABDULLA MOHAMED</td><td>AED 5,000</td><td>AED 15,000</td><td><span class="badge badge-pending">Pending</span></td></tr>
+      <tr><td>2</td><td>ICONS20-02</td><td>AHMED RUSTHAM</td><td>AED 5,000</td><td>AED 15,000</td><td><span class="badge badge-pending">Pending</span></td></tr>
+      <tr><td>3</td><td>ICONS20-03</td><td>NITHIL PREMRAJ</td><td>AED 5,000</td><td>AED 15,000</td><td><span class="badge badge-pending">Pending</span></td></tr>
+      <tr><td>4</td><td>ICONS20-04</td><td>JASIR VALLIL HAMEED</td><td>AED 5,000</td><td>AED 15,000</td><td><span class="badge badge-won">Won &mdash; Jan 2026</span></td></tr>
+      <tr><td>5</td><td>ICONS20-05</td><td>HENNA FATHIMA</td><td>AED 5,000</td><td>AED 15,000</td><td><span class="badge badge-pending">Pending</span></td></tr>
+      <tr><td>6</td><td>ICONS20-06</td><td>NADEER ALI</td><td>AED 5,000</td><td>AED 15,000</td><td><span class="badge badge-pending">Pending</span></td></tr>
+      <tr><td>7</td><td>ICONS20-07</td><td>SUHAIL BABU</td><td>AED 5,000</td><td>AED 15,000</td><td><span class="badge badge-won">Won &mdash; Mar 2026</span></td></tr>
+      <tr><td>8</td><td>ICONS20-08</td><td>SHIHAS KALATHILTHODI</td><td>AED 5,000</td><td>AED 15,000</td><td><span class="badge badge-won">Won &mdash; Jan 2026</span></td></tr>
+      <tr><td>9</td><td>ICONS20-10</td><td>MOHAMMED RAHEES</td><td>AED 5,000</td><td>AED 15,000</td><td><span class="badge badge-pending">Pending</span></td></tr>
+      <tr><td>10</td><td>ICONS20-11</td><td>YASHIF ALI</td><td>AED 5,000</td><td>AED 15,000</td><td><span class="badge badge-pending">Pending</span></td></tr>
+      <tr><td>11</td><td>ICONS20-09</td><td>SAMEEK MELEVEETTIL</td><td>AED 5,000</td><td>AED 15,000</td><td><span class="badge badge-pending">Pending</span></td></tr>
+      <tr><td>12</td><td>ICONS20-12</td><td>MANAF HAMEED</td><td>AED 5,000</td><td>AED 15,000</td><td><span class="badge badge-pending">Pending</span></td></tr>
+      <tr><td>13</td><td>ICONS20-13</td><td>FAHAD MUNNA</td><td>AED 5,000</td><td>AED 15,000</td><td><span class="badge badge-pending">Pending</span></td></tr>
+      <tr><td>14</td><td>ICONS20-14</td><td>NISHAD VERUPURATH</td><td>AED 5,000</td><td>AED 15,000</td><td><span class="badge badge-pending">Pending</span></td></tr>
+      <tr><td>15</td><td>ICONS20-15</td><td>MOHAMED SUHAIL</td><td>AED 5,000</td><td>AED 15,000</td><td><span class="badge badge-pending">Pending</span></td></tr>
+      <tr><td>16</td><td>ICONS20-16</td><td>RENEEZ TP</td><td>AED 5,000</td><td>AED 15,000</td><td><span class="badge badge-won">Won &mdash; Mar 2026</span></td></tr>
+      <tr><td>17</td><td>ICONS20-17</td><td>MOHAMMED SHABEER</td><td>AED 5,000</td><td>AED 15,000</td><td><span class="badge badge-won">Won &mdash; Feb 2026</span></td></tr>
+      <tr><td>18</td><td>ICONS20-18</td><td>JOSHITH NAMBIAR</td><td>AED 5,000</td><td>AED 15,000</td><td><span class="badge badge-pending">Pending</span></td></tr>
+      <tr><td>19</td><td>ICONS20-19</td><td>JANHAR LAL</td><td>AED 5,000</td><td>AED 15,000</td><td><span class="badge badge-won">Won &mdash; Feb 2026</span></td></tr>
+      <tr><td>20</td><td>ICONS20-20</td><td>RASHID MOHAMMED</td><td>AED 5,000</td><td>AED 15,000</td><td><span class="badge badge-pending">Pending</span></td></tr>
+    </table>
+    </div>
+  </div>
+
+  <div class="tab-content" id="tab-nav">
+    <div class="card-title">Net Asset Value (NAV) &mdash; Investment Portfolio (Indicative)</div>
+    <div class="nav-highlight card" style="margin-bottom:20px;">
+      <div class="table-wrap">
+      <table>
+        <tr><th>Asset</th><th>Cost (AED)</th><th style="text-align:right">Current Value (AED)</th><th style="text-align:right">Gain / Loss</th><th style="text-align:right">% Change</th></tr>
+        <tr>
+          <td style="color:var(--blue);font-weight:600">Liquid / Low-Risk Investments</td>
+          <td>80,000.00</td>
+          <td style="text-align:right">80,355.56</td>
+          <td style="text-align:right"><span style="color:var(--accent)">+355.56</span></td>
+          <td style="text-align:right"><span style="color:var(--accent)">+0.44%</span></td>
+        </tr>
+        <tr>
+          <td style="color:var(--gold);font-weight:600">Physical Commodities</td>
+          <td>40,000.00</td>
+          <td style="text-align:right">39,983.11</td>
+          <td style="text-align:right"><span style="color:var(--red)">-16.89</span></td>
+          <td style="text-align:right"><span style="color:var(--red)">-0.04%</span></td>
+        </tr>
+        <tr>
+          <td style="color:var(--orange);font-weight:600">Secured / WC Finance</td>
+          <td>30,000.00</td>
+          <td style="text-align:right">30,000.00</td>
+          <td style="text-align:right"><span style="color:var(--accent)">+0.00</span></td>
+          <td style="text-align:right"><span style="color:var(--accent)">+0.00%</span></td>
+        </tr>
+        <tr style="border-top:2px solid var(--card-border);font-weight:700;font-size:15px;">
+          <td>TOTAL NAV</td>
+          <td>150,000.00</td>
+          <td style="text-align:right"><strong>150,338.66</strong></td>
+          <td style="text-align:right"><span style="color:var(--accent)">+338.66</span></td>
+          <td style="text-align:right"><span style="color:var(--accent)">+0.23%</span></td>
+        </tr>
+      </table>
+      </div>
+    </div>
+
+    <div class="mobile-stack" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      <div>
+        <div class="card-title">Per Member NAV</div>
+        <table class="chit-summary-table">
+          <tr><td style="color:var(--text-muted)">Total Invested Capital</td><td style="text-align:right;font-weight:700">AED 150,000.00</td></tr>
+          <tr><td style="color:var(--text-muted)">Current NAV</td><td style="text-align:right;font-weight:700;color:var(--accent)">AED 150,338.66</td></tr>
+          <tr><td style="color:var(--text-muted)">Per Member Share (1/20)</td><td style="text-align:right;font-weight:700;color:var(--blue)">AED 7,516.93</td></tr>
+          <tr><td style="color:var(--text-muted)">Per Member Cost</td><td style="text-align:right;font-weight:700">AED 7,500.00</td></tr>
+          <tr><td style="color:var(--text-muted)">Per Member Gain/Loss</td><td style="text-align:right;font-weight:700"><span style="color:var(--accent)">+16.93</span></td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="card-title">Assumptions & Notes</div>
+        <div class="notes-text" style="font-size:12px;color:var(--text-muted);line-height:1.8;">
+          &bull; Gold valued at <strong style="color:var(--gold)">AED 582.25</strong> per gram (24K retail UAE, 15 April 2026 indicative)<br>
+          &bull; Wakala profit accrued at estimated profit rate &times; days elapsed / <strong>360</strong><br>
+          &bull; WC Finance profit recognized on <strong style="color:var(--orange)">cash basis only</strong> &mdash; booked when installment is received<br>
+          &bull; WC Finance valued at remaining investment amount (no unreceived profit in NAV)<br>
+          &bull; All values are indicative and subject to actual market prices<br>
+          &bull; Gold assumes 24K purity (as purchased as bullion)<br>
+          &bull; NAV does not include any operating expenses or fees
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="disclaimer">
+  <strong>&#9888; Disclaimer:</strong> This dashboard provides indicative values only. Gold prices are based on publicly available 24K retail rates in UAE and may differ from actual liquidation values. Wakala deposit and working capital finance returns are estimated based on agreed profit rates and may vary upon maturity. This is not audited financial information. All investments carry risk. Past performance is not indicative of future results.
+</div>
+
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var buttons = document.querySelectorAll('.tab-btn');
+  for (var i = 0; i < buttons.length; i++) {
+    buttons[i].addEventListener('click', function(e) {
+      var tabName = this.getAttribute('data-tab');
+      if (!tabName) return;
+      var contents = document.querySelectorAll('.tab-content');
+      for (var j = 0; j < contents.length; j++) {
+        contents[j].classList.remove('active');
+      }
+      for (var k = 0; k < buttons.length; k++) {
+        buttons[k].classList.remove('active');
+      }
+      var target = document.getElementById('tab-' + tabName);
+      if (target) target.classList.add('active');
+      this.classList.add('active');
+    });
+  }
+});
+</script>
+</body>
+</html>
